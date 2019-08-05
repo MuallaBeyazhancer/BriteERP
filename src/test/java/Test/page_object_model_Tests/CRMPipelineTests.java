@@ -128,7 +128,7 @@ public class CRMPipelineTests extends TestBase {
 //            2. Verify that on the pivot table, the total expected revenue
 //            should be the sum of all opportunities’ expected revenue.
 
-    //    TEST CASE
+//    TEST CASE
 //    Steps:
 //        1.Login
 //        2.Navigate to CRM page

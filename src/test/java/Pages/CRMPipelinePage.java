@@ -1,13 +1,11 @@
 package Pages;
 
-import Utilities.BrowserUtils;
+import Utilities.BriteERPUtils;
 import Utilities.Driver;
-import Utilities.VytrackUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +103,8 @@ public class CRMPipelinePage {
                 index = i;
                 break;
                 //table/tbody/tr[3]/td[1][text()='Book Sale']
-            }VytrackUtils.waitForUIOverlay();
+            }
+            BriteERPUtils.waitForUIOverlay();
             Driver.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             String revenue = Driver.get().findElement(By.xpath("//table/tbody/tr[index]/td[2]")).getText().replace(",", "");
             double revenueDouble = Double.parseDouble(revenue);
@@ -117,13 +116,11 @@ public class CRMPipelinePage {
     }
 
 
-
+// Acceptance criteria 2: Sumup the price on the relevant line of pivot version list
 
     public double sumOfRevenue() {
         List<WebElement> totalRevenue = new ArrayList<>();
         totalRevenue = Driver.get().findElements(By.xpath("//tbody/tr/td[2]"));             //tbody/tr[1]/td[2]
-
-
 
         //  System.out.println(totalRevenue.toString());
 
