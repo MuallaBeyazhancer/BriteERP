@@ -6,17 +6,9 @@ import Pages.NavigateBar;
 import Test.TestBase;
 import Utilities.BrowserUtils;
 import Utilities.ConfigurationReader;
-import Utilities.VytrackUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CRMPipelineTests extends TestBase {
 
@@ -53,46 +45,55 @@ public class CRMPipelineTests extends TestBase {
 
     @Test
     public void acceptanceCriteria1() {
+        extentLogger = report.createTest("Acceptance Criteria 1");
 //        1.Login
+        extentLogger.info("Getting user credentials");
         String username = ConfigurationReader.get("CRM_user_username");
         String password = ConfigurationReader.get("CRM_user_password");
 
         LoginPage loginPage = new LoginPage();
         loginPage.login(username, password);
+        extentLogger.info("Entering username and password");
 
 //        2.Navigate to CRM page
         NavigateBar navigateBar = new NavigateBar();
         navigateBar.navigateToMenu("CRM");
+        extentLogger.info("Navigate to CRM page");
 
 //        3.Click the pivot button
 
         CRMPipelinePage crmPage = new CRMPipelinePage();
         BrowserUtils.waitForClickablility(crmPage.pivotButton, 10);
         crmPage.pivotButton.click();
+        extentLogger.info("Clicking on pivotButton");
 
 //        4.Click the Total button to see the + sign
         BrowserUtils.waitForClickablility(crmPage.totalButtonOpened, 10);
         crmPage.totalButtonOpened.click();
+        extentLogger.info("Clicking the Total button to see the + sign");
 
 //        5.Click the Total button again to see the menu
 //        BrowserUtils.waitForClickablility(crmPage.totalButton, 10);
         crmPage.getTotalButtonClosed.click();
+        extentLogger.info("Clicking the Total button again to see the menu");
 
 //        6.Click the opportunity
         BrowserUtils.waitForClickablility(crmPage.opportunity, 10);
         crmPage.opportunity.click();
+        extentLogger.info("Clicking the opportunity");
 
 
 //        7.Verify the Book Sale expected REvenues $500.00
 //*****************
-//        BrowserUtils.waitForVisibility(crmPage.tablePivotBookSale, 10);
-//        String revenuePivot = crmPage.tablePivotBookSale.getText();
-//        System.out.println("revenuePivot = " + revenuePivot);
+        extentLogger.info("Finding the price of the item in the second row");
+        BrowserUtils.waitForVisibility(crmPage.tablePivotBookSale, 10);
+        String revenuePivot = crmPage.tablePivotBookSale.getText();
+        System.out.println("revenuePivot = " + revenuePivot);
 //******************
 
 
-       double revenuePivot = crmPage.opportunityText();
-       System.out.println("revenuePivot = " + revenuePivot);
+//       double revenuePivot = crmPage.opportunityText();
+//       System.out.println("revenuePivot = " + revenuePivot);
 
 //        VytrackUtils.waitForUIOverlay();
 //
@@ -103,11 +104,11 @@ public class CRMPipelineTests extends TestBase {
 
 
 //        8.Click the List button
-
+        extentLogger.info("Clicking the List button");
         crmPage.listButton.click();
 
 //        9.Verify the Book Sale expected REvenueis $500.00
-
+        extentLogger.info("Finding the price of the item in the first row");
         BrowserUtils.waitForVisibility(crmPage.tableListBookSale, 10);
         String revenueList = crmPage.tableListBookSale.getText();
         System.out.println("revenueList = " + revenueList);
@@ -115,9 +116,9 @@ public class CRMPipelineTests extends TestBase {
 
 //        10.Verify that second opportunity’ Expected Revenue value on the Pivot board
 //        should be the same as the Expected revenue column value on the list board
-
-//        Assert.assertEquals(revenuePivot, revenueList);
-
+        extentLogger.info("Verifying that both prices of the item are equal");
+        Assert.assertEquals(revenuePivot, revenueList);
+        extentLogger.pass("PASSED: Positive login as Driver");
 
     }
 
@@ -142,60 +143,65 @@ public class CRMPipelineTests extends TestBase {
 
     @Test
     public void acceptanceCriteria2() {
-
+        extentLogger = report.createTest("Acceptance Criteria 2");
 //        1.Login
+        extentLogger.info("Getting user credentials");
         String username = ConfigurationReader.get("CRM_user_username");
         String password = ConfigurationReader.get("CRM_user_password");
+
         LoginPage loginPage = new LoginPage();
         loginPage.login(username, password);
-
+        extentLogger.info("Entering username and password");
 
 //        2.Navigate to CRM page
         NavigateBar navigateBar = new NavigateBar();
         navigateBar.navigateToMenu("CRM");
-
+        extentLogger.info("Navigate to CRM page");
 
 //        3.Click the pivot button
 
         CRMPipelinePage crmPipelinePage = new CRMPipelinePage();
         BrowserUtils.waitForClickablility(crmPipelinePage.pivotButton, 10);
         crmPipelinePage.pivotButton.click();
-
+        extentLogger.info("Clicking on pivotButton");
 
 //        4.Click the Total button to see the + sign
         BrowserUtils.waitForClickablility(crmPipelinePage.totalButtonOpened, 10);
         crmPipelinePage.totalButtonOpened.click();
-
+        extentLogger.info("Clicking the Total button to see the + sign");
 
 //        5.Click the Total button again to see the menu
         BrowserUtils.waitForClickablility(crmPipelinePage.getTotalButtonClosed, 10);
         crmPipelinePage.getTotalButtonClosed.click();
-
+        extentLogger.info("Clicking the Total button again to see the menu");
 
 //        6.Click the opportunity
         BrowserUtils.waitForClickablility(crmPipelinePage.opportunity, 10);
         crmPipelinePage.opportunity.click();
+        extentLogger.info("Clicking the opportunity");
 
 //        7.Verify the Book Sale expected REvenue tatol price
+        extentLogger.info("Finding the expected REvenue tatol price");
         BrowserUtils.waitForVisibility(crmPipelinePage.totalPrice, 10);
         String totalPriceStr = crmPipelinePage.totalPrice.getText();
         totalPriceStr = totalPriceStr.substring(0, 1) + totalPriceStr.substring(2);
 
         System.out.println("totalPriceStr = " + totalPriceStr);
 
+        extentLogger.info("Converting the price from String to double");
         double totalPriceDouble = Double.parseDouble(totalPriceStr);
         System.out.println("totalPriceDouble = " + totalPriceDouble);
 
 
 //        8.Sum up the prices
-
+        extentLogger.info("Summing up the prices of the items on the list");
         double sumUpTotal = crmPipelinePage.sumOfRevenue();
         System.out.println("sumUpTotal = " + sumUpTotal);
 
 //        9.Verify the total price and sum up prices are the same
-
+        extentLogger.info("Verifying that both prices of the items are equal");
         Assert.assertEquals(totalPriceDouble, sumUpTotal);
-
+        extentLogger.pass("PASSED: Positive login as Driver");
 
     }
 
