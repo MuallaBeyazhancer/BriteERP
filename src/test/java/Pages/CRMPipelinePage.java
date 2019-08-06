@@ -4,6 +4,7 @@ import Utilities.BriteERPUtils;
 import Utilities.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -51,27 +52,30 @@ public class CRMPipelinePage {
     public WebElement price3;
 
 
-    //opportunity.forEach(column -> System.out.println(column.getText()));
-    //System.out.println(opportunity.get(0).getText());
+    @FindBy(xpath = "//table/tbody/tr[3]/td[1]")
+    public WebElement pivotLine2;
 
-//    public String opportunityText() {
-//        int index = 0;
-//        List<WebElement> opportunity = Driver.get().findElements(By.xpath("//table/tbody/tr/td[1]"));
-//        List<String> OpportunityStr = new ArrayList<>();
-//
-//        for (int i = 0; i < opportunity.size(); i++) {
-//            if (opportunity.get(i).getText().equals("Book Sale")) {
-//                index = i;
-//
-//                //table/tbody/tr[3]/td[1][text()='Book Sale']
-//            }
-//        }
-//        VytrackUtils.waitForUIOverlay();
-//        Driver.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//                    String revenue = Driver.get().findElement(By.xpath("//table/tbody/tr["+index+"]/td[2]")).getText();         //table/tbody/tr[" + index + "]/td[9]
-//
-//        return revenue;
-//    }
+    @FindBy(xpath = "//table/tbody/tr[3]/td[2]")
+    public WebElement pivotLine2Price;
+
+    //table/tbody/tr/td[3]
+
+    @FindBy(xpath = "//table/tbody/tr/td[3]")
+    public List<WebElement> listColumn3;
+
+    public double listColumnPrice(){
+        int index = 0;
+        for(int i=0; i < listColumn3.size(); i++){
+            if (listColumn3.get(i).getText().contains(pivotLine2.getText())){
+                index = i+1;
+            }
+        }
+        String listColumn3Str = Driver.get().findElement(By.xpath("//table/tbody/tr["+index+"]/td[9]")).getText();
+        double listColumn3Price = Double.parseDouble(listColumn3Str.replace(",", ""));
+
+        return listColumn3Price;
+    }
+
 
 
     //**********
@@ -89,10 +93,6 @@ public class CRMPipelinePage {
 
         System.out.println("OpportunityStr size=" + OpportunityStr.size());
 
-//      System.out.println(opportunity.get(0).getText());
-//      System.out.println(opportunity.get(1).getText());
-//        System.out.println(opportunity.get(2).getText());
-
         for (WebElement s : opportunity) {
             System.out.println(s.getText());
         }
@@ -102,7 +102,7 @@ public class CRMPipelinePage {
             if (Driver.get().findElements(By.xpath("//table/tbody/tr["+i+"]/td[1]")).get(i).getText().contains("Book Sale")) {
                 index = i;
                 break;
-                //table/tbody/tr[3]/td[1][text()='Book Sale']
+
             }
             BriteERPUtils.waitForUIOverlay();
             Driver.get().manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -110,19 +110,17 @@ public class CRMPipelinePage {
             double revenueDouble = Double.parseDouble(revenue);
             return revenueDouble;
         }
-                //table/tbody/tr[" + index + "]/td[9]
 
        return 0;
     }
 
-
+//************************ AC-2*******************************************
 // Acceptance criteria 2: Sumup the price on the relevant line of pivot version list
 
     public double sumOfRevenue() {
         List<WebElement> totalRevenue = new ArrayList<>();
         totalRevenue = Driver.get().findElements(By.xpath("//tbody/tr/td[2]"));             //tbody/tr[1]/td[2]
 
-        //  System.out.println(totalRevenue.toString());
 
         List<String> totalRevStr = new ArrayList<>();
         for (WebElement w : totalRevenue) {
@@ -143,16 +141,5 @@ public class CRMPipelinePage {
         return sumOfActDouble;
 
     }
-
-//        public double sumOfRevenue(){
-//            List<WebElement> priceList = Driver.get().findElements(By.xpath("//tbody/tr/td[2]"));
-//            double sum=0;
-//            for (int i =3; i<priceList.size(); i++){
-//                sum+=Double.parseDouble(priceList.get(i).getText().replaceAll("[,]", ""));
-//            }
-//            sum=((int)(sum*100)/100.0);
-//            return sum;
-//        }
-
 
 }

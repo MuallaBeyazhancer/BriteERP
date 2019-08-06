@@ -83,12 +83,22 @@ public class CRMPipelineTests extends TestBase {
         extentLogger.info("Clicking the opportunity");
 
 
-//        7.Verify the Book Sale expected REvenues $500.00
+//        7.Find the PivotLine2 expected REvenues price
 //*****************
         extentLogger.info("Finding the price of the item in the second row");
         BrowserUtils.waitForVisibility(crmPage.tablePivotBookSale, 10);
-        String revenuePivot = crmPage.tablePivotBookSale.getText();
+       String revenuePivotName = crmPage.pivotLine2.getText();
+        System.out.println("revenuePivotName = " + revenuePivotName);
+
+        String revenuePivotPrice = crmPage.pivotLine2Price.getText();
+       // System.out.println("revenuePivotPrice = " + revenuePivotPrice);
+
+         double revenuePivot = Double.parseDouble(revenuePivotPrice.replace(",", ""));
         System.out.println("revenuePivot = " + revenuePivot);
+
+
+//        String revenuePivot = crmPage.tablePivotBookSale.getText();
+//        System.out.println("revenuePivot = " + revenuePivot);
 //******************
 
 
@@ -110,9 +120,11 @@ public class CRMPipelineTests extends TestBase {
 //        9.Verify the Book Sale expected REvenueis $500.00
         extentLogger.info("Finding the price of the item in the first row");
         BrowserUtils.waitForVisibility(crmPage.tableListBookSale, 10);
-        String revenueList = crmPage.tableListBookSale.getText();
-        System.out.println("revenueList = " + revenueList);
+//        String revenueList = crmPage.tableListBookSale.getText();
+//        System.out.println("revenueList = " + revenueList);
 
+        double revenueList = crmPage.listColumnPrice();
+        System.out.println("revenueList = " + revenueList);
 
 //        10.Verify that second opportunity’ Expected Revenue value on the Pivot board
 //        should be the same as the Expected revenue column value on the list board
